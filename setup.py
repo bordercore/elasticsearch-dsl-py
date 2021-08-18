@@ -28,7 +28,7 @@ tests_require = [
 ]
 
 setup(
-    name = "elasticsearch-dsl",
+    name = "elasticsearch-dsl-fork",
     description = "Python client for Elasticsearch",
     license="Apache License, Version 2.0",
     url = "https://github.com/elasticsearch/elasticsearch-dsl-py",

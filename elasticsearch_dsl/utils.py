@@ -491,13 +491,17 @@ class ObjectBase(AttrDict):
         self.clean()
 
 def merge(data, new_data, raise_on_conflict=False):
+    # import here to avoid circular imports
+    from .wrappers import Range
+
     if not (isinstance(data, (AttrDict, collections_abc.Mapping))
             and isinstance(new_data, (AttrDict, collections_abc.Mapping))):
         raise ValueError('You can only merge two dicts! Got {!r} and {!r} instead.'.format(data, new_data))
 
     for key, value in iteritems(new_data):
         if key in data and isinstance(data[key], (AttrDict, collections_abc.Mapping)) and \
-                isinstance(value, (AttrDict, collections_abc.Mapping)):
+                isinstance(value, (AttrDict, collections_abc.Mapping)) and \
+                not isinstance(value, Range):
             merge(data[key], value, raise_on_conflict)
         elif key in data and data[key] != value and raise_on_conflict:
             raise ValueError('Incompatible data for key %r, cannot be merged.' % key)
